@@ -1,0 +1,11 @@
+const config = {
+  SPLUNK_API_SCHEME: process.env.SPLUNK_SCHEME,
+  SPLUNK_API_HOST: process.env.SPLUNK_HOST,
+  SPLUNK_API_PORT: process.env.SPLUNK_PORT,
+  SPLUNK_API_USERNAME: process.env.SPLUNK_USERNAME,
+  SPLUNK_API_PASSWORD: process.env.SPLUNK_PASSWORD,
+  SPLUNK_INDEX_NAME: process.env.SPLUNK_INDEX_NAME,
+  SPLUNK_SOURCE_NAME: process.env.SPLUNK_SOURCE_NAME,
+};
+
+export default config;
