@@ -4,6 +4,7 @@
   "description": "Splunk Connector server app written in TypeScript using splunk-sdk",
   "scripts": {
     "start": "ts-node src/server.ts",
+    "debug": "node --inspect ./node_modules/ts-node/dist/bin src/server.ts",
     "test": "jest --silent"
   },
   "author": "Yury Pushnov",
