@@ -4,12 +4,14 @@ import bodyParser from 'body-parser';
 import asyncHandler from "express-async-handler";
 import Processor from './processor';
 
+const JSON_SIZE_LIMIT = '100mb';
+
 const app = express();
 
 // middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false, limit: JSON_SIZE_LIMIT }));
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: JSON_SIZE_LIMIT }));
 
 // endpoints
 app.get('/health', (req, res) => {
