@@ -41,7 +41,7 @@ export default class Connector {
         sourcetype: sourceType,
       }, function(err, result) {
         if (err) {
-          console.error(err);
+          console.error(`Error:\n${JSON.stringify(err)}`);
           reject(ERROR_MESSAGE.SUBMIT_EVENT_FAILED);
         }
 
@@ -54,7 +54,7 @@ export default class Connector {
     return new Promise((resolve, reject) => {
       this.service.login((err, wasSuccessful) => {
         if (err) {
-          console.error(err);
+          console.error(`Error:\n${JSON.stringify(err)}`);
           reject(ERROR_MESSAGE.LOGIN_FAILED);
         }
 
@@ -63,33 +63,28 @@ export default class Connector {
     });
   }
 
-  private createIndexIfNotExists(name: string, params?: Object): Promise<any> {
+  private createIndexIfNotExists(name: string, params: Object = {}): Promise<any> {
     return new Promise((resolve, reject) => {
       const indexes = this.service.indexes();
 
       indexes.fetch((err, existing) => {
         if (err) {
-          console.error(err);
+          console.error(`Error:\n${JSON.stringify(err)}`);
           reject(ERROR_MESSAGE.FETCH_INDEX_FAILED);
         }
 
         const index = existing.item(name);
         if (!index) {
-          return this.createIndex(indexes, name, params);
+          indexes.create(name, params, (err, createdIndex) => {
+            if (err) {
+              console.error(`Error:\n${JSON.stringify(err)}`);
+              reject(ERROR_MESSAGE.CREATE_INDEX_FAILED);
+            }
+            resolve(createdIndex);
+          });
+        } else {
+          resolve(index);
         }
-        return resolve(index);
-      });
-    });
-  }
-
-  private createIndex(indexes: any, name: string, params: Object = {}): Promise<any> {
-    return new Promise((resolve, reject) => {
-      indexes.create(name, params, (err, createdIndex) => {
-        if (err) {
-          console.error(err);
-          reject(ERROR_MESSAGE.CREATE_INDEX_FAILED);
-        }
-        resolve(createdIndex);
       });
     });
   }
